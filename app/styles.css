@@ -1,7 +1,8 @@
 
 
 html {
-  font-family: 'Inknut Antiqua', serif;
+  font-family: 'Roboto', sans-serif;
+  line-height: 30px;
   overflow-x: hidden;
 }
 
@@ -9,7 +10,7 @@ html {
   font-size: 16px;
   color: #000;
   padding-left: 10px;
-  font-family: 'Inknut Antiqua', serif;
+  font-family: 'Roboto', sans-serif;;
   opacity: 0.5;
 }
 
@@ -34,7 +35,11 @@ input[type=email] {
   font-size: 16px;
   color: #000;
   padding-left: 15px;
-  font-family: 'Inknut Antiqua', serif;
+  font-family: 'Roboto', sans-serif;;
+}
+
+.landingWrapper {
+  overflow-x: hidden;
 }
 
 .landingBox {
@@ -160,6 +165,7 @@ input[type=email] {
 
 .navBox {
   border-top: 4px solid #352D2A;
+  padding-top: 14px;
   width: 76px;
   padding-left: 131px;
   text-align: right;
@@ -194,17 +200,22 @@ input[type=email] {
 
 .navBoxItem {
   padding-top: 5px;
+  cursor: pointer;
+  height: 52px;
 }
 
 .navBoxItem:hover {
-  border-bottom: 2px solid #352D2A;
-  cursor: pointer;
+  opacity: 0.7;
 }
 
 .navHeaderItem {
   composes: navBoxItem;
   margin-right: 36px;
-  padding-top: 10px;
+  padding-top: 18px;
+}
+
+.navMobileMenu {
+  display: none;
 }
 
 .sectionRight {
@@ -244,7 +255,7 @@ input[type=email] {
 
 .sectionTitle {
   font-size: 24px;
-  width: 256px;
+  width: 288px;
   font-family: PingFangTC-Medium;
   line-height: 37px;
 }
@@ -262,6 +273,7 @@ input[type=email] {
 
 .sectionItem {
   line-height: 28px;
+  width: 94%;
 }
 
 .sectionItemUSA {
@@ -272,11 +284,13 @@ input[type=email] {
   composes: sectionItem;
   border: 2px solid #352D2B;
   border-radius: 2px;
-  width: 384px;
+  width: 364px;
   height: 43px;
   font-size: 24px;
   line-height: 42px;
-  padding-left: 5px;
+  padding-left: 14px;
+  cursor: pointer;
+  z-index: 300;
 }
 
 .sectionItemNarrow {
@@ -318,6 +332,7 @@ input[type=email] {
   width: 100%;
   margin-left: -8px;
   overflow: hidden;
+  z-index: -10;
 }
 
 .generalFooter {
@@ -348,7 +363,16 @@ input[type=email] {
 }
 
 .footerInfo {
-  padding-top: 15px;
+  padding-top: 50px;
+  line-height: 24px;
+}
+
+.footerLink {
+  color: white !important;
+}
+
+.footerLink:hover {
+  opacity: 0.6;
 }
 
 
@@ -406,31 +430,60 @@ input[type=email] {
 
 .teamBox {
   position: relative;
-  top: 300px;
-  width: 100%;
+  top: 120px;
+  width: 93%;
   display: flex;
-  margin-left: 10vh;
+  justify-content: space-between;
 }
 
 .teamBoxItem {
   width: 364px;
-  height: 409px;
+  height: 365px;
   opacity: 0.8;
   background: #FFFFFF;
-  margin-left: 5%;
+  margin-left: 3vw;
+}
+
+.teamBoxItemActive {
+  composes: teamBoxItem;
+  box-shadow: 6px 6px 2px #888888;
 }
 
 .teamBoxBadge {
   position: relative;
   top: -76px;
-  left: 82px;
+  left: 108px;
   width: 154px;
+}
+
+.teamBoxBadge1 {
+  composes: teamBoxBadge;
+}
+
+.teamBoxBadge2 {
+  composes: teamBoxBadge;
+}
+
+.teamBoxBadge3 {
+  composes: teamBoxBadge;
 }
 
 .teamBoxItemContent {
   margin-top: -115px;
   width: 300px;
   margin-left: 35px;
+}
+
+.teamBoxItemContent1 {
+  composes: teamBoxItemContent;
+}
+
+.teamBoxItemContent2 {
+  composes: teamBoxItemContent;
+}
+
+.teamBoxItemContent3 {
+  composes: teamBoxItemContent;
 }
 
 .teamBoxItemTitle {
@@ -457,13 +510,17 @@ input[type=email] {
 }
 
 .teamBoxBody {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: bold;
   line-height: 28px;
   color: #170000;
   text-align: center;
   margin-top: 2px;
   margin-bottom: 2px;
+}
+
+.teamBoxBodyDesktop {
+  composes: teamBoxBody;
 }
 
 .team1Subtitle {
@@ -491,15 +548,23 @@ input[type=email] {
   cursor: pointer;
 }
 
+.teamBoxButtonActive {
+  composes: teamBoxButton;
+}
+
 .teamBoxButton3 {
   composes: teamBoxButton;
   bottom: -76px;
 }
 
+.teamBoxButton3Active {
+  composes: teamBoxButton;
+}
+
 .contentBody {
   width: 90%;
   background-color: rgba(55,19,28,0.74);
-  margin-top: 500px;
+  margin-top: 300px;
   margin-left: 10vh;
   margin-bottom: 50px;
 }
@@ -567,7 +632,7 @@ input[type=email] {
   width: 139px;
   cursor: pointer;
   opacity: 0.75;
-  margin-right: 4%;
+  margin-right: 10%;
 }
 
 .logos:hover {
@@ -579,7 +644,68 @@ input[type=email] {
   margin-top: 50px;
 }
 
+.volunteerBodyText {
+  line-height: 27px;
+}
+
+.appSection {
+  display: flex;
+  color: white;
+  margin-left: 23%;
+  margin-top: 36px;
+  padding-bottom: 56px;
+}
+
+.appSectionBody {
+  margin-left: 5%;
+  width: 40%;
+}
+
 /* End Participants Page */
+
+/* Loader */
+@keyframes loader {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes loader {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.loader {
+  position: relative;
+}
+.loaderContent {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border-radius: 50%;
+  border: 6px solid #000;
+  border-color: #FFF transparent #FFF transparent;
+  -webkit-animation: lds-dual-ring 3s linear infinite;
+  animation: loader 1s linear infinite;
+}
+.loader {
+  width: 100%;
+  height: 100%;
+  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+  margin-left: 40%;
+  margin-top: 35px;
+}
+
 
 /* Treasure Page */
 
@@ -596,7 +722,7 @@ input[type=email] {
 .treasureBody {
   width: 90%;
   margin-left: 10vh;
-  margin-top: 360px;
+  margin-top: 260px;
   background-color: #352d2a;
   opacity: 0.8;
   margin-bottom: 93px;
@@ -607,8 +733,76 @@ input[type=email] {
 }
 
 .treasureControls {
-  height: 140px;
+  height: 120px;
+  margin-top: -45px;
   border-bottom: 1px solid white;
+  padding-left: 48px;
+  color: #FFF;
+  font-size: 18px;
+  display: flex;
+}
+
+.firstCategoryControl {
+  width: 224px;
+  height: 48px;
+  border: 2px solid #FFF;
+  padding-left: 25px;
+  display: flex;
+  cursor: pointer;
+  line-height: 46px;
+}
+
+.secondCategoryControl {
+  composes: firstCategoryControl;
+  width: 500px;
+  margin-left: 24px;
+}
+
+.treasureControlTriangle {
+  width: 0px;
+  height: 0px;
+  margin-top: 19px;
+  margin-left: 28px;
+  border-style: inset;
+  border-width: 0 12px 12px 12px;
+  border-color: transparent transparent #FFF transparent;
+  float: left;
+  transform:rotate(180deg);
+  -ms-transform:rotate(180deg);
+  -moz-transform:rotate(180deg);
+  -webkit-transform:rotate(180deg);
+  -o-transform:rotate(180deg);
+}
+
+.treasureControlTriangle:hover{
+  opacity: 0.5;
+}
+
+.firstCategoryDropdown {
+  border: 2px solid #FFF;
+  z-index: 150;
+  width: 249px;
+  position: absolute;
+  background-color: #352d2a;
+  top: 433px;
+}
+
+.firstCategoryDropdownList {
+  list-style: none;
+  font-size: 14px;
+  width: 85%;
+  padding-left: 16px;
+  cursor: pointer;
+}
+
+.firstCategoryDropdownListItem:hover {
+  opacity: 0.7;
+}
+
+.secondCategoryDropdown {
+  composes: firstCategoryDropdown;
+  margin-left: 24px;
+  width: 525px;
 }
 
 .treasureContainer {
@@ -618,12 +812,367 @@ input[type=email] {
   padding-right: 0;
 }
 
+.galleryTitle {
+  color: white;
+  font-size: 16px;
+  padding-left: 48px;
+  width: 90%;
+}
+
 .docItem {
   width: 210px;
   margin-right: 33px;
+  margin-bottom: 60px;
+}
+
+.loadMoreButton {
+  margin-left: 45%;
+  width: 220px;
+  height: 60px;
+  font-size: 18px;
+  color: #fff;
+  background-color: transparent;
+  text-align: center;
+  border: 2px solid white;
+  margin-bottom: 65px;
+  cursor: pointer;
 }
 
 /* End Treasure Page */
+
+
+/*  Document Page */
+
+.docPageBorder {
+  border: 1px solid #6b4e3d;
+}
+
+.docBody {
+  composes: treasureBody;
+  width: 100%;
+  background-color: #f5f3ef;
+  margin-left: 0;
+  margin-top: 240px;
+  opacity: 1;
+}
+
+.docInfoBox {
+  height: 120px;
+  border-bottom: 1px solid #6b4e3d;
+  padding-bottom: 12px;
+  padding-top: 24px;
+  color: #1b1715;
+  font-size: 16px;
+  width: 83%;
+  margin-left: 7%;
+}
+
+.docImgBox {
+  display: flex;
+}
+
+.docImgFrame {
+  margin-left: 7%;
+  margin-top: 26px;
+  width: 40%;
+  height: auto;
+  min-height: 700px;
+}
+
+.docImg {
+  width: 100%;
+  margin-top: 26px;
+}
+
+.docDataBox {
+  margin-top: 36px;
+  margin-left: 24px;
+  width: 40%;
+}
+
+.docPageControl {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+}
+
+.lowerRightButton {
+  padding: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+  font-size: 16px;
+  color: #6b4e3d;
+  composes: docPageBorder;
+  background-color: #fff;
+  border-radius: 2px;
+  margin-bottom: 72px;
+  cursor: pointer;
+}
+
+.storyButton {
+  composes: lowerRightButton;
+  color: #fff;
+  background-color: #6b4e3d;
+  margin-left: 70%;
+  margin-bottom: 30px;
+}
+
+.tagBoxLabel {
+  font-size: 18px;
+}
+
+.tagBox {
+  width: 100%;
+  composes: docPageBorder;
+  height: 49px;
+  margin-top: 18px;
+  margin-bottom: 18px;
+  padding: 13px;
+  padding-top: 0;
+  overflow-x: scroll;
+  overflow-y: hidden;
+}
+
+.tagBoxContent {
+  display: flex;
+  list-style: none;
+  padding-left: 13px;
+}
+
+.tagBoxItem {
+  width: 78px;
+  height: 28px;
+  border: 1px solid #979797;
+  border-radius: 28px;
+  line-height: 28px;
+  background-color: white;
+  font-size: 12px;
+  text-align: center;
+  margin-right: 14px;
+  overflow-x: scroll;
+  font-family: 'Roboto', sans-serif;
+}
+
+.ocrControls {
+  width: 146px;
+  height: 38px;
+  composes: docPageBorder;
+  font-size: 16px;
+  display: flex;
+  margin-top: 35px;
+}
+
+.ocrControlItem {
+  width: 50%;
+  height: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: center;
+  line-height: 37px;
+  cursor: pointer;
+}
+
+.ocrControlItem:hover {
+  opacity: 0.7;
+}
+
+.ocrControlItemActive {
+  composes: ocrControlItem;
+  background-color: #6b4e3d;
+  color: #FFF;
+}
+
+.ocrControlItemActive:hover {
+  opacity: 0.7;
+}
+
+
+.ocrBox {
+  width: 100%;
+  height: 530px;
+  composes: docPageBorder;
+  margin-top: 18px;
+  margin-bottom: 18px;
+  padding: 13px;
+  font-size: 14px;
+  overflow: scroll;
+  text-align: left;
+  line-height: 28px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.docInfoTitle {
+  font-size: 24px;
+}
+
+.docInfoStatus {
+  font-size: 16px;
+  height: 25px;
+}
+
+.docInfoContributor {
+  font-size: 16px;
+}
+
+.masterControlBox {
+  display: flex;
+  width: 106%;
+  justify-content: space-between;
+}
+
+.calibrateControls {
+  composes: ocrControls;
+  width: 200px;
+}
+
+.calibrateControlItemActive {
+  composes: ocrControlItemActive;
+}
+
+.calibrateControlItem {
+  composes: ocrControlItem;
+}
+
+.calibrateTextArea {
+  composes: ocrBox;
+}
+
+.calibrateMsgButtonBox {
+  display: flex;
+  justify-content: space-between;
+  width: 108%;
+}
+
+.calibrateMsg {
+  width: 144px;
+  color: #6b4e3d
+}
+
+.editDone {
+  composes: storyButton;
+  background-color: #a01e40;
+  border-color: #a01e40;
+  width: 122px;
+  height: 38px;
+  font-size: 16px;
+  margin-left: 0;
+}
+
+.mobileNoCalibrateBox {
+  display: none;
+}
+
+/* End Document Page */
+
+/* Support Page */
+
+.supportSubtitle {
+  width: 40%;
+  color: white;
+  line-height: 27px;
+  margin-left: 30%;
+}
+
+.bodySupportTitle {
+  composes: bodyTitle;
+  margin-bottom: 35px;
+}
+
+.bodySupportInfo {
+  margin-left: 13%;
+  margin-top: 60px;
+  padding-bottom: 100px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.supportButtonContainer {
+  margin-right: 10%;
+}
+
+.supportButton {
+  width: 216px;
+  height: 70px;
+  background-color: white;
+  border-radius: 5px;
+  color: #6b4e3d;
+  font-size: 24px;
+  border-color: white;
+  cursor: pointer;
+}
+
+.supportButtonSubtitle {
+  font-size: 14px;
+  color: white;
+}
+
+.donateButtonSubtitle {
+  composes: supportButtonSubtitle;
+  padding-left: 20px;
+  font-size: 18px;
+}
+
+.donateButtonContainer {
+  composes: supportButtonContainer;
+  margin-left: 30%;
+  margin-top: 20px;
+}
+
+.donateInput {
+  width: 166px;
+  height: 30px;
+  font-size: 14px;
+  padding-left: 14px;
+  border-radius: 5px;
+  margin-bottom: 24px;
+}
+
+.donateButton {
+  composes: supportButton;
+  width: 83px;
+  height: 38px;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+/* End Support Page */
+
+/* Search Bar in Treasure Box */
+
+.searchBar {
+  composes: donateInput;
+  margin-left: 20px;
+}
+
+.searchButton {
+  composes: donateButton;
+  height: 36px;
+}
+
+/* End Search Bar */
+
+
+/* Calibrate Page */
+
+.bodyCalibrateInfo {
+  composes: bodySupportInfo;
+  display: block;
+  width: 50%;
+  margin-left: 25%;
+}
+
+.bodyCalibrateImg {
+  width: 100%;
+  height: 130%;
+}
+
+.calibrateButton {
+  composes: supportButton;
+  margin-left: 30%;
+  margin-top: 50px;
+}
+
+/* End Calibrate Page */
 
 /* Larger desktop */
 @media (max-width: 1346px) and (min-width: 1024px) {
@@ -781,14 +1330,643 @@ input[type=email] {
   .footer {
     padding-bottom: 70px;
     font-size: 14px;
+    bottom: -238px;
   }
 
   .footerContent {
     width: 243px;
     margin-left: 15%;
+    display: block;
   }
 
-  .navBar {
+  .poweredBy {
+    width: 120px;
+  }
+
+  .footerInfo {
+    padding-top: 0;
+    font-size: 14px;
+  }
+
+  .generalFooter {
+    padding: 20px;
+  }
+
+  /* Nav Bar */
+
+  .navHeader {
     display: none;
+  }
+
+  .navMobileMenu {
+    display: initial;
+    background-color: #6b4e3d;
+    color: white;
+    text-align: center;
+    line-height: 53px;
+    cursor: pointer;
+  }
+
+  .navHeaderMobilePopout {
+    composes: navMobileMenu;
+    width: 148px;
+    position: fixed;
+    height: 92%;
+    top: 60px;
+    left: 0;
+  }
+
+  .navHeaderPopoutItem {
+    color: white;
+    font-size: 15px;
+  }
+
+  /* Phone Volunteers page */
+  .backgroundHero {
+    display: none;
+  }
+
+  .triangle {
+    margin-left: 8%;
+    margin-top: 20px;
+    border-width: 0 150px 150px 150px;
+  }
+
+  .triangleContent {
+    font-size: 20px;
+    top: 20px;
+  }
+
+  .teamBox {
+    display: block;
+    width: 93%;
+    top: 220px;
+  }
+
+  .teamBoxItem {
+    width: 100%;
+    height: 120px;
+    margin-bottom: 112px;
+  }
+
+  .teamBoxItemActive {
+    composes: teamBoxItem;
+    box-shadow: 6px 6px 2px #888888;
+  }
+
+  .teamBoxBadge1 {
+    position: relative;
+    top: -214px;
+    left: 30px;
+    width: 88px;
+  }
+
+  .teamBoxBadge2 {
+    composes: teamBoxBadge1;
+    top: -43px;
+  }
+
+  .teamBoxBadge3 {
+    composes: teamBoxBadge1;
+    top: -43px;
+  }
+
+  .teamBoxItemContent {
+    margin-top: 0;
+    width: 90%;
+    margin-left: 5px;
+  }
+
+  .teamBoxItemContent1 {
+    composes: teamBoxItemContent;
+    position: relative;
+    top: -276px;
+  }
+
+  .teamBoxItemContent2 {
+    composes: teamBoxItemContent;
+    position: relative;
+    top: -109px;
+  }
+
+  .teamBoxItemContent3 {
+    composes: teamBoxItemContent;
+    position: relative;
+    top: -109px;
+  }
+
+  .teamBoxItemTitle {
+    font-size: 18px;
+  }
+
+
+  .teamBoxBody {
+    font-size: 13px;
+    line-height: 21px;
+    padding-left: 12%;
+    width: 85%;
+    margin-top: -12px;
+  }
+
+  .teamBoxBodyDesktop {
+    display: none;
+  }
+
+  .teamBoxButton {
+    width: 111.5%;
+    height: 38px;
+    font-size: 16px;
+    bottom: -13px;
+    left: -5px;
+  }
+
+  .teamBoxButtonActive {
+    composes: teamBoxButton;
+    box-shadow: 6px 6px 2px #888888;
+  }
+
+  .teamBoxButton3 {
+    composes: teamBoxButton;
+    bottom: -34px;
+    box-shadow: 6px 6px 2px #888888;
+  }
+
+  .teamBoxButton3Active {
+    composes: teamBoxButton3;
+    box-shadow: 6px 6px 2px #888888;
+  }
+
+  .contentBody {
+    width: 100%;
+    margin-top: 370px;
+    margin-left: 0;
+  }
+
+  .bodyBadge {
+    composes: teamBoxBadge;
+    left: 29%;
+  }
+
+  .bodyTitle {
+    composes: teamBoxItemTitle;
+    font-size: 24px;
+  }
+
+  .bodyArchiveInfo {
+    background: rgba(55,19,28,0.74);
+    margin-top: 110px;
+    color: #FFFFFF;
+    font-weight: 300;
+  }
+
+  .bodyArchiveInfoContent {
+    display: block;
+    margin-left: 2%;
+    margin-top: -45px;
+    padding-bottom: 36px;
+  }
+
+  .bodyArchiveInfoContentItem {
+    width: 89%;
+    padding-left: 36px;
+  }
+
+  .bodyArchiveInfoContentItemTitle {
+    font-size: 18px;
+    line-height: 29px;
+  }
+
+  .bodyArchiveInfoContentItemTitle1 {
+    composes: bodyArchiveInfoContentItemTitle;
+    border-bottom: 1px solid #FFFFFF;
+    width: 150px;
+  }
+
+  .bodyArchiveInfoContentItemBody {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .logos {
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    opacity: 0.75;
+    margin-right: 15%;
+  }
+
+  .bodyTitle2 {
+    composes: bodyTitle;
+    margin-top: 50px;
+  }
+
+  .volunteerBodyText {
+    line-height: 27px;
+  }
+
+  .supportSubtitle {
+    width: 91%;
+    margin-left: 6%;
+  }
+
+  .bodyCalibrateImg {
+    display: none;
+  }
+
+  .calibrateButton {
+    width: 201px;
+    margin-left: 9%;
+    font-size: 16px;
+    margin-top: 10px
+  }
+
+  .bodySupportInfo {
+    display: block;
+  }
+
+  .appSection {
+    display: block;
+    margin-left: 8%;
+  }
+
+  .appSectionBody {
+    width: 91%;
+    margin-left: 3%;
+  }
+
+  .supportButton {
+    width: 166px;
+    font-size: 18px;
+  }
+
+  .donateButtonContainer {
+    margin-left: 0;
+  }
+
+  /* End Phone Volunteers */
+
+  /* Phone Trasure */
+  .treasureBody {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .treasureContainer {
+    padding-left: 20%;
+  }
+
+  .galleryTitle {
+    font-size: 12px;
+    width: 80%;
+    line-height: 20px;
+  }
+
+  .loader {
+    margin-left: 28%;
+  }
+
+  .treasureControls {
+    display: block;
+    height: 130px;
+  }
+
+  .docItem {
+    margin-bottom: 100px;
+  }
+
+  .secondCategoryControl {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 80%;
+  }
+
+  .secondCategoryDropdown {
+    margin-left: 0;
+    width: 80%;
+  }
+
+  .searchBar {
+    margin-left: 0px;
+    margin-top: 8px;
+  }
+
+  .searchButton {
+    width: 62px;
+    font-size: 14px;
+    height: 35px;
+  }
+
+  /* Phone Doc Page */
+
+  .docBody {
+    margin-top: 165px;
+  }
+
+  .docImgBox {
+    display: block;
+  }
+
+  .lowerRightButton {
+    margin-right: 10px;
+    padding: 3px;
+    padding-left: 6px;
+    padding-right: 6px;
+    font-size: 14px;
+  }
+
+  .lowerRightButtonNext {
+    margin-left: 0;
+  }
+
+  .docInfoStatus {
+    padding-left: 7%;
+  }
+
+  .docInfoContributor {
+    padding-left: 7%;
+  }
+
+  .docImgFrame {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .storyButton {
+    display: none;
+  }
+
+  .tagBoxLabel {
+    display: none;
+  }
+
+  .tagBox {
+    display: none;
+  }
+
+  .docDataBox {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .ocrControls {
+    margin-left: 7%;
+  }
+
+  .ocrBox {
+    width: 88%;
+    line-height: 20px;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .lowerRightButton {
+    margin-bottom: 0;
+  }
+
+  .calibrateControls {
+    display: none;
+  }
+
+  .mobileNoCalibrateBox {
+    display: block;
+    width: 72%;
+    height: 53px;
+    top: 128px;
+    line-height: 20px;
+    position: relative;
+    margin-left: 10%;
+    padding: 5px;
+    text-align: center;
+    background-color: #FFF;
+    opacity: 0.5;
+  }
+
+  .mobileNoCalibrateMsg {
+    position: relative;
+    top: -155px;
+  }
+
+  .docInfoTitle {
+    font-size: 18px;
+    line-height: 21px;
+    margin-bottom: 5px;
+  }
+
+  .docInfoSubTitle {
+    font-size: 10px;
+    line-height: 15px;
+  }
+
+}
+
+/* phone 5 protrait */
+@media (max-width: 321px) {
+
+  .triangle {
+    margin-left: 0;
+  }
+
+  .teamBoxItemContent1 {
+    top: -268px;
+  }
+
+  .teamBoxItemContent2 {
+    top: -101px;
+  }
+
+  .teamBoxItemContent3 {
+    top: -101px;
+  }
+
+  .teamBoxButton {
+    bottom: -2px;
+  }
+
+  .teamBoxBadge1 {
+    left: 14px;
+  }
+
+  .bodyBadge {
+    margin-left: -5%;
+  }
+
+  .archiveLogo {
+    padding-left: 35px;
+  }
+
+  .bodyArchiveInfoContentItem {
+    padding-left: 20px;
+  }
+
+  .appSection {
+    margin-left: 0;
+  }
+
+  .appSectionBody {
+    padding-left: 10px;
+  }
+
+  .footerContent {
+    margin-left: 5%;
+  }
+
+}
+
+
+/* ipad */
+@media (max-width: 1025px) and (min-width: 767px) {
+  .taiwan {
+    width: 467px;
+    right: 5%;
+  }
+
+  .logo {
+    margin-left: 100px;
+  }
+
+  .navBox {
+    margin-left: 70px;
+  }
+
+  .doc1Img {
+    display: none;
+  }
+
+  .sectionLeft {
+    margin-top: 240px;
+    left: -130px;
+  }
+
+  .usaImg {
+    width: 431px;
+    height: 307px;
+    margin-bottom: -120px;
+  }
+
+  .sectionItem {
+    width: 90%;
+  }
+
+  .buttonGroup {
+    width: 90%;
+  }
+
+  .sectionLeftUSA {
+    display: block;
+    top: 1540px;
+  }
+
+  .sectionLeftContent2 {
+    height: 600px;
+  }
+
+  .sectionLeft {
+    width: 890px;
+  }
+
+  .innerContent {
+    padding-top: 80px;
+  }
+
+  .footerContent {
+    margin-left: 13%;
+  }
+
+  /* participants page */
+
+  .backgroundHero {
+    width: 100%;
+  }
+
+  .teamBoxBadge {
+    top: -51px;
+    left: 56px;
+    width: 100px;
+  }
+
+  .teamBoxItem {
+    width: 207px;
+    height: 300px;
+  }
+
+  .teamBoxItemContent {
+    margin-top: -70px;
+    width: 150px;
+    margin-left: 30px;
+  }
+
+  .teamBoxItemTitle {
+    font-size: 18px;
+    letter-spacing: 4px;
+    line-height: 32px;
+    margin-bottom: 14px;
+  }
+
+  .teamBoxBody {
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  .teamBoxButton {
+    width: 99px;
+    height: 37px;
+    font-size: 16px;
+    bottom: -14px;
+    left: 25px;
+  }
+
+  .teamBoxButton3 {
+    bottom: -15px;
+  }
+
+  .contentBody {
+    width: 100%;
+    margin-left: 0vh;
+  }
+
+  .bodyTitle {
+    font-size: 24px;
+    margin-top: 28px;
+  }
+
+  .bodyBadge {
+    left: 43%;
+  }
+
+  .bodyArchiveInfo {
+    margin-top: 66px;
+  }
+
+  .triangle {
+    margin-left: 19%;
+    border-width: 0 225px 225px 225px;
+  }
+
+  .triangleContent {
+    font-size: 26px;
+    top: 36px;
+  }
+
+  .appSection {
+    margin-left: 12%;
+  }
+
+  .calibrateButton {
+    margin-left: 20%;
+  }
+
+  /* Treasure page */
+
+  .treasureBody {
+    width: 100%;
+    margin-left: 0vh;
+  }
+
+  .masterControlBox {
+    display: block;
+  }
+
+  .donateButtonContainer {
+    margin-left: 20%;
   }
 }

@@ -1,142 +1,266 @@
 import React from 'react';
-import { render } from 'react-dom';
-import styles from '../styles.css';
-import taiwan from '../assets/taiwan.png';
-import logo from '../assets/logo.png';
-import name from '../assets/name.png';
-import loader from '../assets/loading.gif';
+import { Link } from 'react-router';
+import FontAwesome from 'react-fontawesome';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import * as actions from '../actions/documents';
 import axios from 'axios';
+import NavHeader from './NavHeader';
+import FooterContent from './FooterContent';
+import styles from '../styles.css';
+import logo from '../assets/hero-menu-logo.png';
+import mobileLogo from '../assets/mobile-menu-logo.png';
+import poweredBy from '../assets/poweredby.png';
+import userTable from '../helpers/userTable';
 
-export default class Docs extends React.Component {
+class Docs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValue: '',
-      message: '',
-      images: [],
-      selected: null,
-      isLoading: false,
-      isDebugging: false,
+      data: {},
+      ocrMode: 'En',
+      isCalibrateModeOn: false
     };
   }
-
   componentDidMount() {
-    this.startLoading();
+    const { params, getSingleDoc, treasureBox } = this.props;
+    const uid = params.documentId.split('@')[0];
+
+    if (!treasureBox.selectedDocs[uid]) {
+      getSingleDoc(uid);
+    }
+
+    document.addEventListener("keydown", this.handleKeyDown);
   }
 
-  startLoading = () => {
-    this.setState({ isLoading: true });
-    this.getMoreImages()
-    .then((res) => {
-      if (res.data.length != this.state.images.length) {
-        this.setState({ isLoading: false });
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { params, treasureBox } = nextProps;
+    const uid = params.documentId.split('@')[0];
+    const { documents } = this.props.treasureBox;
+
+    if (params.documentId !== this.props.params.documentId) {
+      this.props.getSingleDoc(uid);
+    }
+
+    if (!!treasureBox.selectedDocs[uid] && !this.props.treasureBox.selectedDocs[uid]) {
+      const { primaryTag, timestamp, userId, metadata } = treasureBox.selectedDocs[uid];
+      const box = metadata.box;
+      this.props.selectTag(primaryTag);
+
+      if (treasureBox.documents.findIndex(e => e.uid === uid) === -1) {
+        this.props.hydrateDocs(uid, primaryTag, timestamp, userId, treasureBox);
       }
-      this.setState({ images: res.data });
-    })
+    }
+
   }
 
-  getMoreImages = () => {
-    return axios.get('https://76k76zdzzl.execute-api.us-east-1.amazonaws.com/stage/upload');
-  }
+  handleKeyDown = (event) => {
+    const { params, treasureBox } = this.props;
+    const { isCalibrateModeOn } = this.state;
+    if (!isCalibrateModeOn) {
+      const uid = params.documentId.split('@')[0];
+      const docIndex = treasureBox.documents.findIndex(doc => doc.uid === uid);
+      let lastDocUid;
+      if (docIndex !== '0') {
+        lastDocUid = treasureBox.documents[+docIndex - 1] && treasureBox.documents[+docIndex - 1].uid;
+      }
 
-  handleInput = (e) => {
-    this.setState({
-      inputValue: e.target.value
-    });
-  }
-
-  handleSubmit = () => {
-    if (this.state.inputValue.includes('@')) {
-      axios.post('https://5bq2v7mgi5.execute-api.us-east-1.amazonaws.com/prod/mySimpleBE', {
-        "Item": {
-          timestamp: `${new Date().getTime()}`,
-          email: this.state.inputValue,
-        },
-        "TableName": 'TNT-Email'
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          this.setState({ inputValue: '', message: 'Thank you! We will be in touch!' })
-        }
-      })
-      .catch((err) => {
-        this.setState({ message: err.message });
-      })
-    } else {
-      this.setState({ message: 'Please enter a valid email!'});
+      const nextDocUid = treasureBox.documents[+docIndex + 1] && treasureBox.documents[+docIndex + 1].uid;
+      if (event.key === 'ArrowRight' && nextDocUid) {
+        this.props.history.push(`/documents/${nextDocUid}`)
+      } else if (event.key === 'ArrowLeft' && lastDocUid) {
+        this.props.history.push(`/documents/${lastDocUid}`)
+      }
     }
   }
 
-  newImageUpload = ({ base64Img }) => {
-      axios.post(
-        'https://76k76zdzzl.execute-api.us-east-1.amazonaws.com/stage/upload',
-        { file: base64Img,
-          email: 'user@nltr.tw',
-          docId: '1742010',
-          location: 'nara',
-          recordGroup: '469',
-          entry: 'UD409',
-          stack: '250',
-          row: '075',
-          compartment: '035',
-          shelf: '02-07',
-          box: '1-127',
-          containerId: '14',
-          title: 'China and Taiwan Subject Files, 1948 - 1961 Record Group 469: Records of U.S. Foreign Assistance Agencies, 1942 - 1963',
-          timestamp: new Date().getTime(),
-        },
-        { headers: { 'Content-Type': 'application/json' } })
-      .then((res) => {
-        console.log('success')
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
-
-  handleFile = (e) => {
-    this.setState({ isLoading: true });
-    const reader = new FileReader();
-    const file = e.target.files[0];
-    reader.onload = () => {
-      const imgData = { base64Img: reader.result };
-      this.newImageUpload(imgData);
-    };
-
-    reader.readAsDataURL(file);
+  handleSwitchOCRMode = (mode) => {
+    this.setState({ ocrMode: mode });
   }
 
-  handleSelect = (index) => {
-    this.setState({ selected: index });
+  handleSwitchCalibrateMode = (mode) => {
+    this.setState({ isCalibrateModeOn: mode });
   }
 
-  handleDebugOCR = () => {
-    this.setState({ isDebugging: !this.state.isDebugging });
+  handleCalibrate = (event) => {
+    const uid = this.props.params.documentId.split('@')[0];
+    this.props.calibrate(uid, this.state.ocrMode, event.target.value);
+  }
+
+  handleEditDone = () => {
+    const { params, treasureBox, calibrationComplete } = this.props;
+    const uid = params.documentId.split('@')[0];
+    const data = treasureBox.selectedDocs[uid] || {};
+
+    if (data.oldOcrText) {
+      calibrationComplete(uid, data.oldOcrText, data.ocr[0], 'ocr');
+    }
+
+    if (data.oldTranslateText) {
+      calibrationComplete(uid, data.oldTranslateText, data.translate[0], 'translate');
+    }
+
+    this.setState({ isCalibrateModeOn: false });
   }
 
   render() {
-    const { images, selected, isLoading, isDebugging } = this.state;
-    const gallery = images.sort((image1, image2) => image2.timestamp - image1.timestamp ).map((image, index) => image.smallUrl && <img onClick={() => this.handleSelect(index)} src={image.smallUrl} className={styles.image} />);
+    const { ocrMode, isCalibrateModeOn } = this.state;
+    const { params, treasureBox, location } = this.props;
+    const uid = params.documentId.split('@')[0];
+    const docIndex = treasureBox.documents.findIndex(doc => doc.uid === uid);
+    const data = treasureBox.selectedDocs[uid] || {};
+    let lastDocUid;
+    if (docIndex !== '0') {
+      lastDocUid = treasureBox.documents[+docIndex - 1] && treasureBox.documents[+docIndex - 1].uid;
+    }
+
+    const nextDocUid = treasureBox.documents[+docIndex + 1] && treasureBox.documents[+docIndex + 1].uid;
+
+    const enTags = (data.nlpEn && data.nlpEn.length > 0)  && _.uniqBy(data.nlpEn[0].entities, 'name').slice(0, 12).filter(e => e.name !== 'DECLASSIFIED' && e.name !== 'Authority' && e.name !== 'DECLASSIFIED Authority')
+    .map(e => (
+      <li className={styles.tagBoxItem} key={e.name + e.salience}>
+        {e.name}
+      </li>
+    ));
+
+    const zhTags = (data.nlpZh && data.nlpZh.length > 0) && _.uniqBy(data.nlpZh[0].entities, 'name').slice(0, 12).filter(e => e.name !== '解密' && e.name !== '權威' && e.name !== '解密權威')
+    .map(e => (
+      <li className={styles.tagBoxItem} key={e.name + e.salience}>
+        {e.name}
+      </li>
+    ));
+
+    const contributor = data.userId && userTable[data.userId];
+
+    const ocrText = (data.ocr && data.ocr.length) && data.ocr[0].split('\n').map((item, key) => {
+      return <span key={key}>{item}<br/></span>
+    });
+
+    const translateText = (data.translate && data.translate.length) && data.translate[0].split('\n').map((item, key) => {
+      return <span key={key}>{item}<br/></span>
+    })
+
+    const loader =  (
+      <div style={{ marginTop: -31, marginLeft: '17%'}} className={styles.loader} >
+        <div className={styles.loaderContent} style={{ width: 20, height: 20, borderWidth: 2 }} />
+      </div>
+    );
+
+    const hasBeenCalibrated = data.ocr && data.ocr.length === 1;
+
     return (
-      <div className={styles.box}>
-        {selected !== null ? (
-          <div>
-            <span onClick={() => this.setState({ selected: null })} style={{ cursor: 'pointer', color: '#D0011B' }}>BACK</span>
-            <img src={images[selected].largeUrl} className={styles.selectedImage} />
-            {!isDebugging && (images[selected].ocr[0] ? <div className={styles.ocrBox}>{images[selected].ocr[0]}</div> : <img src={loader} width={100} height={100} />)}
-            {isDebugging && <textarea style={{ width: 600, height: 300}} defaultValue={images[selected].ocr[0]} /> }
-            <button onClick={this.handleDebugOCR}> {isDebugging ? '提交' : '除錯' } </button>
-          </div>
-        ) : (
-          <div>
-            <input type="file" ref={(e) => { this.uploadbox = e; }} onChange={this.handleFile} />
-            <div style={{ width: '100%' }}>
-              {isLoading && <img src={loader} width={200} height={200} />}
-              {gallery}
+      <div className={styles.treasureBox}>
+        <div className={styles.triangle}>
+          <p className={styles.triangleContent}>寶藏庫</p>
+        </div>
+        <NavHeader />
+        <div className={styles.mobileNoCalibrateBox}>
+          <span className={styles.mobileNoCalibrateMsg}>手機模式僅供瀏覽，幫忙校正除錯請使用桌機版瀏覽器</span>
+        </div>
+        <div className={styles.docBody}>
+          <div className={styles.docInfoBox}>
+            <div className={styles.docInfoTitle}>
+              分類: {treasureBox.selectedTag}
+            </div>
+            <div className={styles.docInfoSubTitle}>
+              {data.docId  && <a href={`https://catalog.archives.gov/id/${data.docId}`} target="_blank">{data.metadata && `${data.metadata.title} box: ${data.metadata.box}`}</a>}
+            </div>
+            <div className={styles.docPageControl}>
+            {lastDocUid &&
+                <Link to={`/documents/${lastDocUid}`}>
+                  <button className={styles.lowerRightButton}><FontAwesome name='chevron-left' /> 上一張</button>
+                </Link>
+              }
+            <Link to="/treasure"><button className={styles.lowerRightButton}><FontAwesome name='chevron-up' /> 回上層</button></Link>
+              {nextDocUid &&
+                <Link to={`/documents/${nextDocUid}`}>
+                  <button className={styles.lowerRightButton}>下一張 <FontAwesome name='chevron-right' /></button>
+                </Link>
+              }
             </div>
           </div>
-        )}
+          <div className={styles.docImgBox}>
+            <div className={styles.docImgFrame}>
+              <div className={styles.docInfoStatus}>
+                文獻狀態：{ hasBeenCalibrated ? '已校正' : '尚未校正' }
+              </div>
+              <div className={styles.docInfoContributor}>
+                貢獻者：{contributor}
+              </div>
+              <img src={data.resizedUrls && data.resizedUrls.largeUrl} className={styles.docImg} />
+              <div className={styles.lowerRightButtonGroup}>
+                <a href={data.originalUrl} download> <button className={styles.lowerRightButton}><FontAwesome name='download' /> 下載圖檔</button> </a>
+                <Link to="/participants/supporters#toHere"> <button className={styles.lowerRightButton}><FontAwesome name='gift' /> 支持國家寶藏</button> </Link>
+              </div>
+            </div>
+            <div className={styles.docDataBox}>
+              {/*<Link to="/treasure"><button className={styles.storyButton}><FontAwesome name='book' /> 看寶藏故事</button></Link>*/}
+              <div className={styles.tagBoxLabel}>
+                標籤：
+              </div>
+              <div className={styles.tagBox}>
+                <ul style={{ width: enTags && 78 * enTags.length + 100}} className={styles.tagBoxContent}>
+                  {data.ocr && (ocrMode === 'En' ? enTags : zhTags)}
+                </ul>
+              </div>
+              <div className={styles.masterControlBox}>
+                <div className={styles.ocrControls}>
+                  <div
+                    className={ocrMode === 'En' ? styles.ocrControlItemActive : styles.ocrControlItem}
+                    onClick={() => this.handleSwitchOCRMode('En')}
+                  >
+                    內文
+                  </div>
+                  <div
+                    className={ocrMode === 'Zh' ? styles.ocrControlItemActive : styles.ocrControlItem}
+                    onClick={() => this.handleSwitchOCRMode('Zh')}
+                  >
+                    翻譯
+                  </div>
+                </div>
+                 <div className={styles.calibrateControls}>
+                  <div
+                    className={isCalibrateModeOn ? styles.calibrateControlItemActive : styles.calibrateControlItem}
+                    onClick={() => this.handleSwitchCalibrateMode(true)}
+                  >
+                    校正模式
+                  </div>
+                  <div
+                    className={!isCalibrateModeOn ? styles.calibrateControlItemActive : styles.calibrateControlItem}
+                    onClick={() => this.handleSwitchCalibrateMode(false)}
+                  >
+                    瀏覽模式
+                  </div>
+                </div>
+              </div>
+              {isCalibrateModeOn ?
+                <textarea
+                  value={ocrMode === 'En' ? data.ocr[0] : data.translate[0]}
+                  className={styles.calibrateTextArea}
+                  onChange={this.handleCalibrate}
+                /> : (
+                <div className={styles.ocrBox}>
+                  {data.ocr && (ocrMode === 'En' ? ocrText : translateText)}
+                </div> )
+              }
+              <div className={styles.calibrateMsgButtonBox}>
+              <span className={styles.calibrateMsg}>{data.isCalibrateSuccess && '感謝您的校正貢獻！'}</span>
+              {isCalibrateModeOn && <button className={styles.editDone} onClick={this.handleEditDone}>完成編輯</button>}
+              {treasureBox.isCalibrating && <button className={styles.editDone}>{loader}</button>}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={styles.generalFooter}>
+          <FooterContent />
+        </div>
       </div>
     );
   }
 }
+
+export default connect(({ treasureBox }) => ({ treasureBox }), actions)(Docs);

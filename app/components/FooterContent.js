@@ -8,10 +8,10 @@ export default class FooterContent extends React.Component {
       <div className={styles.footerContent}>
         <a href="https://grants.g0v.tw/power" target="_blank"><img src={poweredBy} className={styles.poweredBy} /> </a>
         <div className={styles.footerInfo}>
-          <div>Email：join@nltr.tw</div>
-          <div>Facebook：fb.me/twnationaltreasure</div>
-          <div>Web：nationaltreasure.tw</div>
-          <div>Donate：請寄支票到 <br /> Taiwan National Treasure Foundation 431 W. 37st #9A New York, NY 10018</div>
+          <div><b>Taiwan National Treasure Foundation</b></div>
+          <div>Email：<a href="mailto:join@nltr.tw" className={styles.footerLink}>join@nltr.tw</a></div>
+          <div>Facebook：<a href="fb.me/twnationaltreasure" target="_blank" className={styles.footerLink}>@twnationaltreasure</a></div>
+          <i style={{ fontSize: 12 }}>TNTF is a US 501(c)(3) nonprofit organization </i>
         </div>
       </div>
     );
